@@ -1,7 +1,7 @@
 var sio = require("socket.io");
 var crypto = require('crypto');
 var validator = require('validator');
-var redis = require("redis").createClient();
+var redis = require("./redis");
 
 module.exports.listen = function(app) {
     var io = sio.listen(app);
@@ -19,6 +19,7 @@ module.exports.listen = function(app) {
         var hash = md5sum.update(ip).digest("hex").substring(0,6);
         return hash;
     };
+
     io.sockets.on('connection', function (socket) {
         socket.hash = getHash(socket.handshake.address.address);
         socket.on('room', function(room) {
@@ -34,14 +35,19 @@ module.exports.listen = function(app) {
             io.sockets.in(socket.room).emit("updateMember", getMembers(socket.room));
 
             // get message
-            redis.lrange("message:" + room, 0, 50, function(err, item) {
+            redis.lrange("message:" + room, 0, 50, function(err, items) {
                 if(err) {
                     console.log(err);
                     return false;
                 }
                 var messageList = [];
-                item.forEach(function(i){
-                    messageList.push(JSON.parse(i));
+                items.forEach(function(item){
+                    item = JSON.parse(item);
+                    if(item.ip) {
+                        item.hash = getHash(item.ip);
+                    }
+                    delete item.ip;
+                    messageList.push(item);
                 });
                 socket.emit("loadMessage", messageList);
                 return;
@@ -57,6 +63,7 @@ module.exports.listen = function(app) {
                 data.hash = socket.hash;
                 data.time = new Date().getTime();
                 io.sockets.in(socket.room).emit("message", data);
+                data.ip = socket.handshake.address.address;
                 redis.lpush("message:" + socket.room, [JSON.stringify(data)], function(err, res){
                     if(err) console.log(err);
                     return;

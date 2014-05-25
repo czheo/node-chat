@@ -14,6 +14,7 @@ var ChatView = B.View.extend({
         "click li.room-item": "switchRoom",
         "click #logout": "tearDown",
         "click li.user-item": "replyTo",
+        "click .msg-name": "replyTo",
     },
     initialize: function(data) {
         var self = this;
@@ -47,7 +48,7 @@ var ChatView = B.View.extend({
     addMessage: function(data, reverse) {
         var msg_html = '<p class="msg">' + 
             '<span class="msg-time">'+ moment(data.time).format("HH:mm:ss")+ '</span>' +
-            '<span class="msg-name" style="color:#' + data.hash + '">['+ data.username + ']</span>' +
+            '[<span class="msg-name" style="color:#' + data.hash + '">'+ data.username + '</span>]' +
             '<span class="msg-text">'+ data.message + '</span>' +
             '</p>';
         var $message = this.$("#message");

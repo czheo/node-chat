@@ -64,6 +64,16 @@ body {
             border:1px solid darken($green, 20%);
         }
     }
+    p#user_online {
+        color:$grey-black;
+        top:50%;
+        width:200px;
+        left:50%;
+        text-align:center;
+        margin-left: -100px;
+        position:absolute;
+        font-size:$font-size-small;    
+    }
 }
 #left {
     background:white;
@@ -84,16 +94,17 @@ body {
             line-height:16px;
             margin:12px 30px 4px 50px;
             word-wrap: break-word;
+            color:$grey-black;
             .msg-name {
+                cursor:pointer;
                 color:$green;
-                margin-left:10px;
             }
             .msg-text {
                 color: rgba(black, 0.8); 
                 margin-left:10px;
             }
             .msg-time {
-                color:$grey-black;
+                margin-right:10px;
             }
         }
     }

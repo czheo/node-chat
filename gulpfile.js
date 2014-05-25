@@ -13,7 +13,7 @@ gulp.task("js", function() {
         // debug : true,
         transform: ["node-underscorify"],
     }))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest("public/js"));
 });
 
@@ -49,3 +49,4 @@ gulp.task("nodemon", function() {
 });
 
 gulp.task("default", ["nodemon"]);
+gulp.task("compile", ["css", "js"]);

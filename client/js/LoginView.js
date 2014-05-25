@@ -15,7 +15,13 @@ var LoginView = B.View.extend({
     },
 
     render: function() {
-        this.$el.html(template());
+        var self = this;
+        var username = window.localStorage.getItem("username");
+        if(!username) username = "";
+        this.$el.html(template({username: username}));
+        $.get("/user_count", function(data){
+            self.$("#user_count").text(data.count);
+        });
     },
 
     onKeyPress: function(e) {
@@ -29,6 +35,7 @@ var LoginView = B.View.extend({
         var username = $.trim($input.val());
         if (username) {
             vent.trigger("login", {username: username});
+            window.localStorage.setItem("username", username);
         }
         $input.val("");
         return false;
