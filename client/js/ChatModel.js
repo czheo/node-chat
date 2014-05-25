@@ -41,6 +41,7 @@ var ChatModel = B.Model.extend({
         this.socket.emit("room", room);
     },
     tearDown: function() {
+        this.socket.emit("room", "_leave");
         this.socket.disconnect();
         this.socket.removeAllListeners("connect");
         this.socket.removeAllListeners("ready");
@@ -48,6 +49,7 @@ var ChatModel = B.Model.extend({
         this.socket.removeAllListeners("message");
         this.socket.removeAllListeners("disconnect");
         this.socket.removeAllListeners("updateMember");
+        this.socket.removeAllListeners("loadMessage");
     }
 });
 
