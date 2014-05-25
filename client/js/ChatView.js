@@ -6,6 +6,9 @@ var template = require("./templates/chat.html");
 var vent = require("./vent");
 var ChatModel = require("./ChatModel");
 
+var urlMatcher = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))/gi;
+var imgMatcher = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)(\.jpge?|\.png|\.gif))/gi;
+
 var ChatView = B.View.extend({
     id:"#chat",
     events : {
@@ -45,11 +48,20 @@ var ChatView = B.View.extend({
         this.$el.html(template(data));
         this.$("#input-message").focus();
     },
-    addMessage: function(data, reverse) {
+    addMessage: function(data) {
+        var message = data.message;
+        var images = message.match(imgMatcher);
+        message = message.replace(urlMatcher, '<a href="' + '$1' + '">$1</a>');
+        if(images) {
+            for(var i=0;i<images.length;i++) {
+                var html = '<br><img height="100px" src="' + images[i] + '"/>';
+                message += html;
+            }
+        }
         var msg_html = '<p class="msg">' + 
             '<span class="msg-time">'+ moment(data.time).format("HH:mm:ss")+ '</span>' +
             '[<span class="msg-name" style="color:#' + data.hash + '">'+ data.username + '</span>]' +
-            '<span class="msg-text">'+ data.message + '</span>' +
+            '<span class="msg-text">'+ message + '</span>' +
             '</p>';
         var $message = this.$("#message");
         $message.append(msg_html).scrollTop($message[0].scrollHeight);
