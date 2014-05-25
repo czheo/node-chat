@@ -1,0 +1,248 @@
+@import "compass/css3";
+@import "compass/reset";
+$grey-black:rgba(black, 0.6);
+$green:#a9d8b2;
+$orange:#FE9A2E;
+$white:#fff;
+$right-width:250px;
+$font-size-large:30px;
+$font-size-big:20px;
+$font-size-normal:16px;
+$font-size-small:14px;
+body {
+    font: small arial,sans-serif;
+}
+#wrapper {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(#555, 0.1);
+}
+#login {
+    position: relative;
+    margin:auto;
+    top:50%;
+    width:500px;
+    height:300px;
+    margin-top:-150px;
+    background:white;
+    @include border-radius(5px);
+    @include box-shadow(rgba(black, 0.4) 0 0 2px);
+    #input-name {
+        position:absolute;
+        display:block;
+        width:250px;
+        height:40px;
+        top:40%;
+        left:50%;
+        margin-top:-20px;
+        margin-left:-125px;
+        border:none;
+        border-bottom:1px solid $grey-black;
+        font-size:$font-size-large;
+        outline:none;
+        text-align:center;
+    }
+    #button-login {
+        position:absolute;
+        background:white;
+        display:block;
+        cursor:pointer;
+        @include border-radius(25px);
+        text-align:center;
+        font-size:$font-size-big;
+        line-height:20px;
+        border:1px solid $green;
+        color:$green;
+        padding:10px 5px;
+        width:100px;
+        top:60%;
+        left: 50%;
+        margin-left:-50px;
+        &:hover {
+            color:darken($green, 20%);
+            border:1px solid darken($green, 20%);
+        }
+    }
+}
+#left {
+    background:white;
+    position:absolute;
+    left:0;
+    right:$right-width;
+    height:100%;
+    #message {
+        font-family:"jaf-bernino-sans","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+        position:absolute;
+        overflow-y:auto;
+        overflow-x:hidden;
+        width:100%;
+        top:0;
+        bottom:100px;
+        .msg {
+            font-size:$font-size-normal;
+            line-height:16px;
+            margin:12px 30px 4px 50px;
+            word-wrap: break-word;
+            .msg-name {
+                color:$green;
+                margin-left:10px;
+            }
+            .msg-text {
+                color: rgba(black, 0.8); 
+                margin-left:10px;
+            }
+            .msg-time {
+                color:$grey-black;
+            }
+        }
+    }
+    #chat {
+        position:absolute;
+        width:100%;
+        height:100px;
+        bottom:0;
+        #input-message {
+            position:absolute;
+            display:block;
+            width:70%;
+            height:30px;
+            border:none;
+            border-bottom:1px solid $grey-black;
+            font-size:$font-size-big;
+            top:50%;
+            margin-top:-15px;
+            left:50px;
+            outline:none;
+        }
+        #button-submit {
+            background:white;
+            cursor:pointer;
+            position:absolute;
+            @include border-radius(25px);
+            text-align:center;
+            font-size:$font-size-big;
+            line-height:20px;
+            border:1px solid $green;
+            color:$green;
+            padding:10px 5px;
+            width:100px;
+            top:50%;
+            margin-top:-20px;
+            left:70%;
+            margin-left:100px;
+            &:hover {
+                color:darken($green, 20%);
+                border:1px solid darken($green, 20%);
+            }
+        }
+    }
+}
+#right {
+    background:white;
+    @include box-shadow(rgba(black, 0.4) -2px 0 2px -2px);
+    position:absolute;
+    width:$right-width;
+    right:0;
+    top:0;
+    bottom:0;
+    #user {
+        @include box-shadow(rgba(black, 0.4) 0 2px 2px -2px);
+        position:absolute;
+        height:50px;
+        width:100%;
+        span {
+            color:$grey-black;
+            font-size:$font-size-small;
+            position:absolute;
+            display:block;
+            height:20px;
+            line-height:20px;
+            top:50%;
+            margin-top:-10px;
+            vertical-align:middle;
+            left:20px;
+        }
+        #logout {
+            color:$grey-black;
+            font-size:$font-size-small;
+            vertical-align:middle;
+            position:absolute;
+            height:22px;
+            line-height:12px;
+            background:white;
+            cursor:pointer;
+            top:50%;
+            margin-top:-10px;
+            right:10px;
+            border:1px solid $grey-black;
+            margin-top:-12px;
+            padding:4px 10px;
+            @include border-radius(12px);
+            &:hover {
+                color:opacify($grey-black, 0.2);
+                border:1px solid opacify($grey-black, 0.2);
+            }
+        }
+    }
+    #room-wrapper {
+        position:absolute;
+        width:100%;
+        bottom:0;
+        top:50px;
+        .header {
+            font-size:15px;
+            width:90%;
+            margin:5px auto;
+            text-align:center;
+            color: $grey-black;
+        }
+    }
+    #rooms {
+        position:absolute;
+        width:100%;
+        height:50%;
+        top:0;
+        overflow-y:auto;
+        ul {
+            position:absolute;
+            width:100%;
+            top:30px;
+            bottom:0;
+        }
+        li.room-item {
+            font-size: $font-size-normal;
+            padding:5px 5px 5px 20px;
+            cursor:pointer;
+            color:$grey-black;
+            &.selected {
+                border-left:4px solid $green;
+            }
+            &:hover {
+                border-left:4px solid $green;
+            }
+        }
+    }
+    #users {
+        position:absolute;
+        height:50%;
+        bottom:0;
+        width:100%;
+        overflow-y:auto;
+        ul {
+            position:absolute;
+            width:100%;
+            top:30px;
+            bottom:0;
+        }
+        li.user-item {
+            font-size: $font-size-normal;
+            padding:5px 5px 5px 20px;
+            cursor:pointer;
+            color:$grey-black;
+            &:hover {
+                color:$green;
+            }
+        }
+    }
+}
