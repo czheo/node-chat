@@ -32,12 +32,19 @@ var ChatView = B.View.extend({
             var members = self.model.get("members");
             self.updateMember(members);
         });
+        this.listenTo(this.model, "change:messages", function(){
+            var messages = self.model.get("messages");
+            self.$("#message").empty();
+            messages.reverse().forEach(function(message){
+                self.addMessage(message);
+            });
+        });
     },
     render : function(data) {
         this.$el.html(template(data));
         this.$("#input-message").focus();
     },
-    addMessage: function(data) {
+    addMessage: function(data, reverse) {
         var msg_html = '<p class="msg">' + 
             '<span class="msg-time">'+ moment(data.time).format("HH:mm:ss")+ '</span>' +
             '<span class="msg-name" style="color:#' + data.hash + '">['+ data.username + ']</span>' +

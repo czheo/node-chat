@@ -1,6 +1,7 @@
 var sio = require("socket.io");
 var crypto = require('crypto');
 var validator = require('validator');
+var redis = require("redis").createClient();
 
 module.exports.listen = function(app) {
     var io = sio.listen(app);
@@ -31,6 +32,20 @@ module.exports.listen = function(app) {
             socket.join(room);
             socket.emit("room", room);
             io.sockets.in(socket.room).emit("updateMember", getMembers(socket.room));
+
+            // get message
+            redis.lrange("message:" + room, 0, 50, function(err, item) {
+                if(err) {
+                    console.log(err);
+                    return false;
+                }
+                var messageList = [];
+                item.forEach(function(i){
+                    messageList.push(JSON.parse(i));
+                });
+                socket.emit("loadMessage", messageList);
+                return;
+            });
         });
         socket.on("message", function(message){
             message = validator.trim(message);
@@ -42,6 +57,10 @@ module.exports.listen = function(app) {
                 data.hash = socket.hash;
                 data.time = new Date().getTime();
                 io.sockets.in(socket.room).emit("message", data);
+                redis.lpush("message:" + socket.room, [JSON.stringify(data)], function(err, res){
+                    if(err) console.log(err);
+                    return;
+                });    
             }
         });
         socket.on("login", function(username){

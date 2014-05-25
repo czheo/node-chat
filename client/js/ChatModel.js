@@ -23,6 +23,9 @@ var ChatModel = B.Model.extend({
             socket.on("updateMember", function(data){
                 self.set("members", data);
             });
+            socket.on("loadMessage", function(data){
+                self.set("messages", data);
+            });
             self.set("ready", true);
             self.switchRoom("hall");
         });
