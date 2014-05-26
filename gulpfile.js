@@ -1,4 +1,5 @@
 var gulp = require("gulp");
+var jshint = require("gulp-jshint");
 
 var src = {
     js : "./client/js/**/*.{js,html}",
@@ -9,6 +10,7 @@ var browserify = require("gulp-browserify"),
     uglify = require("gulp-uglify");
 gulp.task("js", function() {
     gulp.src("./client/js/app.js")
+    .pipe(jshint())
     .pipe(browserify({
         // debug : true,
         transform: ["node-underscorify"],
@@ -36,6 +38,12 @@ gulp.task("watch", function(){
     gulp.watch(src.sass, ["css"]);
 });
 
+// lint
+gulp.task("lint", function(){
+    gulp.src(["./**/*.js", "!./client/**", "!./node_modules/**", "!./public/**"])
+    .pipe(jshint());
+});
+
 // nodemon
 var nodemon = require("gulp-nodemon");
 gulp.task("nodemon", function() {
@@ -45,7 +53,8 @@ gulp.task("nodemon", function() {
         env : {"NODE_ENV": "development"},
         ignore: ["client", "public"],
     })
-    .on("start", ["js", "css", "watch"]);
+    .on("restart", ["lint"])
+    .on("start", ["lint", "js", "css", "watch"]);
 });
 
 gulp.task("default", ["nodemon"]);
