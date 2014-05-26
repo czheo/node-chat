@@ -51,7 +51,7 @@ var ChatView = B.View.extend({
     addMessage: function(data) {
         var message = data.message;
         var images = message.match(imgMatcher);
-        message = message.replace(urlMatcher, '<a href="' + '$1' + '">$1</a>');
+        message = message.replace(urlMatcher, '<a target="_blank" href="' + '$1' + '">$1</a>');
         if(images) {
             for(var i=0;i<images.length;i++) {
                 var html = '<br><img height="100px" src="' + images[i] + '"/>';
