@@ -1,0 +1,8 @@
+web:
+    image: czheo/node-chat
+    links:
+        - redis
+    ports:
+        - "80:3000"
+redis:
+    image: redis

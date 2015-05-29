@@ -5,9 +5,11 @@ var src = {
     js : "./client/js/**/*.{js,html}",
     sass : "./client/sass/*"
 };
-// js
+
+// client js
 var browserify = require("gulp-browserify"),
     uglify = require("gulp-uglify");
+
 gulp.task("js", function() {
     gulp.src("./client/js/app.js")
     .pipe(jshint())
@@ -22,6 +24,7 @@ gulp.task("js", function() {
 // css
 var minifyCSS = require("gulp-minify-css"),
     compass = require("gulp-compass");
+
 gulp.task("css", function(){
     gulp.src(src.sass)
     .pipe(compass({
@@ -40,12 +43,13 @@ gulp.task("watch", function(){
 
 // lint
 gulp.task("lint", function(){
-    gulp.src(["./**/*.js", "!./client/**", "!./node_modules/**", "!./public/**"])
+    gulp.src(["./*.js", "./routes/*.js", "./client/js/*.js"])
     .pipe(jshint());
 });
 
 // nodemon
 var nodemon = require("gulp-nodemon");
+
 gulp.task("nodemon", function() {
     nodemon({
         script : "app.js",
