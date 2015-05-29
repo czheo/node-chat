@@ -33,6 +33,11 @@ docker-compose up -d
 ### setup manually
 Start redis on localhost with default port(6379)
 
+```
+# add hosts
+sudo echo "localhost redis" >> /etc/hosts
+```
+
 Install node.js, npm, ruby, compass
 
 ```
