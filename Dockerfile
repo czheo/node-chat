@@ -26,5 +26,5 @@ WORKDIR /src
 # Install app dependencies
 RUN npm install && node_modules/gulp/bin/gulp.js compile 
 
-# EXPOSE 3000
+EXPOSE 3000
 CMD node_modules/forever/bin/forever app.js
