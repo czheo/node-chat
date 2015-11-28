@@ -1,8 +1,6 @@
 # node-chat
 
 This is a toy chatroom node.js app.
-
-demo: http://192.241.198.19/
  
 ### setup with docker
 Install docker on your machine. https://docs.docker.com/installation/ubuntulinux/
